@@ -26,8 +26,8 @@ I did this project in order to boost views with the [teleboost :airplane:](https
 - proxy-ip-list.com
 - hidester.com
 - awmproxy.net
-- [api.openproxy.space](openproxy.space)
-- [proxy-list.download](proxy-list.download)
+- api.openproxy.space
+- proxy-list.download
 - aliveproxy.com
 - community.aliveproxy.com
 
