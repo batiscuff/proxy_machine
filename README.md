@@ -47,5 +47,5 @@ python3 main.py
 ```
 
 ## License
-**Copyright © 2021 [batiscuff](https://github.com/batiscuff)**
+**Copyright © 2021 [batiscuff](https://github.com/batiscuff)** <\br>
 **This project is GNU [General Public License v3.0](https://github.com/batiscuff/proxy_machine/blob/master/LICENSE) licensed**
