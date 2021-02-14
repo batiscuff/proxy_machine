@@ -14,22 +14,22 @@
 ## Description
 I did this project in order to boost views with the [teleboost :airplane:](https://github.com/crinny/teleboost/) in my Telegram channel. You can use it not only for boosting views but also for your own purposes. The maximum number of proxies you can get is 11.000 </br>
 **List of sites for parsing proxies:**
-- free-proxy-list.net/anonymous-proxy.html
-- free-proxy-list.net
-- proxy-daily.com
-- sslproxies.org
-- free-proxy-list.net/uk-proxy.html
-- us-proxy.org
-- api.proxyscrape.com
-- checkerproxy.net
-- proxy50-50.blogspot.com
-- proxy-ip-list.com
-- hidester.com
-- awmproxy.net
-- api.openproxy.space
-- proxy-list.download
-- aliveproxy.com
-- community.aliveproxy.com
+- [free-proxy-list.net/anonymous-proxy.html](free-proxy-list.net/anonymous-proxy.html)
+- [free-proxy-list.net](free-proxy-list.net)
+- [proxy-daily.com](proxy-daily.com)
+- [sslproxies.org](sslproxies.org)
+- [free-proxy-list.net/uk-proxy.html](free-proxy-list.net/uk-proxy.html)
+- [us-proxy.org](us-proxy.org)
+- [api.proxyscrape.com](proxyscrape.com)
+- [checkerproxy.net](checkerproxy.net)
+- [proxy50-50.blogspot.com](proxy50-50.blogspot.com)
+- [proxy-ip-list.com](proxy-ip-list.com)
+- [hidester.com](hidester.com)
+- [awmproxy.net](awmproxy.net)
+- [api.openproxy.space](openproxy.space)
+- [proxy-list.download](proxy-list.download)
+- [aliveproxy.com](aliveproxy.com)
+- [community.aliveproxy.com](community.aliveproxy.com)
 
 
 ## Install 
