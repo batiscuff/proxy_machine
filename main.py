@@ -7,7 +7,7 @@ from otherproxies import (aliveproxy, awmproxy, community_aliveproxy, hidester,
                           openproxy, proxy50_50, proxy_ip_list,
                           proxy_list_download)
 from proxyscrape_all import ProxyScraper
-from utils import prepare_proxy
+from utils import prepare_proxy, filtrate_ports
 
 
 def load_proxies() -> Set[str]:
@@ -43,7 +43,9 @@ def main() -> None:
     proxies_set = load_proxies()
     # Clearing unnecessary lines. (These can be from proxyscrape_all)
     prepared_proxies = {
-        f"{prepare_proxy(proxy)}\n" for proxy in proxies_set if len(proxy) > 0
+        f"{prepare_proxy(proxy)}\n"
+        for proxy in proxies_set
+        if filtrate_ports(proxy)
     }
     save_proxies("proxies.txt", prepared_proxies)
     logger.info(f"Program execution time: {time.time() - start: .2f} sec")
@@ -54,7 +56,7 @@ if __name__ == "__main__":
         format="{asctime} <{levelname}> {name}: {message}",
         datefmt="%Y-%m-%d %H:%M:%S",
         style="{",
-        level=logging.INFO
+        level=logging.INFO,
     )
     logger = logging.getLogger("proxy_machine")
 

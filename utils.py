@@ -2,6 +2,13 @@ import re
 from urllib.parse import urlparse
 
 
+def filtrate_ports(ip_port: str) -> bool:
+    ip, port = ip_port.split(":")
+    if len(port) > 0:
+        if int(port) < 65535:
+            return True
+    return False
+
 def short_url(url: str) -> str:
     return urlparse(url).netloc.upper()
 
