@@ -69,7 +69,7 @@ def hidester() -> Set[str]:
         "sec-fetch-site": "same-origin",
         "user-agent": user_agent,
     }
-    r = requests.get(url, params=params, headers=headers, timeout=10)
+    r = requests.get(url, params=params, headers=headers, timeout=20)
     proxies_set3 = set()
     if r.ok:
         try:
