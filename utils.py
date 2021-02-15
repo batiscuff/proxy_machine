@@ -3,7 +3,10 @@ from urllib.parse import urlparse
 
 
 def filtrate_ports(ip_port: str) -> bool:
-    ip, port = ip_port.split(":")
+    try:
+        ip, port = ip_port.split(":")
+    except ValueError:
+        return False
     if len(port) > 0:
         if int(port) < 65535:
             return True
