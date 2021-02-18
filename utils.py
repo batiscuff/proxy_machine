@@ -12,8 +12,13 @@ def filtrate_ports(ip_port: str) -> bool:
             return True
     return False
 
+
 def short_url(url: str) -> str:
     return urlparse(url).netloc.upper()
+
+
+def normalize_for_hidemy(ip: str, port: str) -> str:
+    return f"{ip.text_content().strip()}:{port.text_content().strip()}"
 
 
 def parse_proxies(response: str) -> set:

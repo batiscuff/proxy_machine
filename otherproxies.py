@@ -10,8 +10,7 @@ import requests
 from bs4 import BeautifulSoup
 from user_agent import generate_user_agent
 
-from utils import parse_proxies, short_url
-
+from utils import normalize_for_hidemy, parse_proxies, short_url
 
 logger = logging.getLogger(__name__)
 standard_headers = {"User-Agent": generate_user_agent()}
@@ -173,7 +172,7 @@ def aliveproxy() -> Set[str]:
         for proxy in soup.find("table", {"class": "cm or"}).find_all("tr")[1:]:
             proxies = parse_proxies(str(proxy.find("td")))
             proxy_set7.update(proxies)
-        link = r.url.split('/')[-2]
+        link = r.url.split("/")[-2]
         logger.info(
             f"From {link} section were parsed {len(proxy_set7) - plp_s7} proxies"
         )
@@ -199,3 +198,67 @@ def community_aliveproxy() -> Set[str]:
     except Exception:
         logger.exception(f"Proxies from {short_url(r.url)} were not loaded :(")
     return proxy_set8
+
+
+def hidemy() -> Set[str]:
+    url = "http://hidemy.name/en/proxy-list/"
+    countries = """AFALARAMAUATAZBHBDBYBEBZBJBOBABWBRBGBIKHCM\
+CACLCNCOCDCRHRCYCZDKECEGGQFIFRGEDEGRGTHNHKHUINIDIRIQIEILI\
+TJPKZKEKRKGLVLSLYLTMKMGMWMYMVMLMTMXMDMNMEMZNPNLNZNGNOPKPS\
+PAPYPEPHPLPTPRRORURWRSSCSGSKSISOZAESSDSESYTWTJTZTHTNTRUGU\
+AAEGBUSUYUZVEVNVGZW"""
+    proxies_set9 = set()
+
+    # 1-st start = 0. new page start=start+64.
+    for n in range(0, 15 * 64, 64):
+        params = {
+            "country": countries,
+            "maxtime": 3000,
+            "type": "hs",
+            "out": "plain",
+            "lang": "en",
+            "utf": "",
+            "start": n,
+        }
+        r = requests.get(url, params=params, headers=standard_headers)
+        soup = BeautifulSoup(r.content, "lxml")
+
+        try:
+            for tr in soup.find("table").find_all("tr")[1:]:
+                tds = tr.find_all("td")
+                proxies_set9.add(f"{tds[0].text}:{tds[1].text}")
+            logger.info(
+                f"From {short_url(r.url)} were parsed {len(proxies_set9)} proxies"
+            )
+        except Exception:
+            logger.exception(
+                f"Proxies from {short_url(r.url)} were not loaded :("
+            )
+    return proxies_set9
+
+
+def proxy11() -> Set[str]:
+    url = "https://proxy11.com/api/demoweb/proxy.json"
+    proxies_set10 = set()
+    r = requests.get(url, headers=standard_headers)
+    try:
+        data_list = r.json().get("data")
+        for data in data_list:
+            proxy = f"{data.get('ip')}:{data.get('port')}"
+            proxies_set10.add(proxy)
+        logger.info(
+            f"From {short_url(r.url)} were parsed {len(proxies_set10)} proxies"
+        )
+    except Exception:
+        logger.exception(f"Proxies from {short_url(r.url)} were not loaded :(")
+    return proxies_set10
+
+
+def httptunnel() -> Set[str]:
+    url = "http://www.httptunnel.ge/ProxyListForFree.aspx"
+    r = requests.get(url, headers=standard_headers)
+    proxies_set11 = parse_proxies(r.text)
+    logger.info(
+        f"From {short_url(r.url)} were parsed {len(proxies_set11)} proxies"
+    )
+    return proxies_set11

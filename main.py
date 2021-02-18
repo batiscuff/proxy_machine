@@ -3,11 +3,11 @@ import time
 from typing import Set
 
 from checkerproxy_net import CheckerProxyArchive
-from otherproxies import (aliveproxy, awmproxy, community_aliveproxy, hidester,
-                          openproxy, proxy50_50, proxy_ip_list,
-                          proxy_list_download)
+from otherproxies import (aliveproxy, awmproxy, community_aliveproxy, hidemy,
+                          hidester, httptunnel, openproxy, proxy11, proxy50_50,
+                          proxy_ip_list, proxy_list_download)
 from proxyscrape_all import ProxyScraper
-from utils import prepare_proxy, filtrate_ports
+from utils import filtrate_ports, prepare_proxy
 
 
 def load_proxies() -> Set[str]:
@@ -17,6 +17,7 @@ def load_proxies() -> Set[str]:
     cpa_set, ps_set = cpa.parse_proxies(), ps.combine_results()
     p50_set, pil_set, h_set = proxy50_50(), proxy_ip_list(), hidester()
     al_set, aw_set, op_set = aliveproxy(), awmproxy(), openproxy()
+    hid_set, p11_set, ht_set = hidemy(), proxy11(), httptunnel()
     cal_set, pld_set = community_aliveproxy(), proxy_list_download()
     return main_set.union(
         cpa_set,
@@ -29,6 +30,9 @@ def load_proxies() -> Set[str]:
         aw_set,
         cal_set,
         pld_set,
+        hid_set,
+        p11_set,
+        ht_set,
     )
 
 

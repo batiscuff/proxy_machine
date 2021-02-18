@@ -8,7 +8,6 @@ from user_agent import generate_user_agent
 
 from utils import short_url
 
-
 logger = logging.getLogger(__name__)
 
 
