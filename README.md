@@ -30,6 +30,9 @@ I did this project in order to boost views with the [teleboost :airplane:](https
 - [proxy-list.download](http://proxy-list.download)
 - [aliveproxy.com](http://aliveproxy.com)
 - [community.aliveproxy.com](http://community.aliveproxy.com)
+- [hidemy.name](http://hidemy.name/en)
+- [proxy11.com](http://proxy11.com)
+- [httptunnel.ge](http://www.httptunnel.ge)
 
 
 ## Install 
