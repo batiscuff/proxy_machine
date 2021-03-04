@@ -2,11 +2,12 @@ import logging
 from typing import Dict, Optional, Set, Union
 
 import requests
+
 from proxyscrape import create_collector, get_collector, scrapers
 from proxyscrape.errors import CollectorAlreadyDefinedError
 from user_agent import generate_user_agent
 
-from utils import short_url
+from .tools.proxies_manipulation import short_url
 
 logger = logging.getLogger(__name__)
 
@@ -71,3 +72,9 @@ class ProxyScraper:
 
     def combine_results(self) -> Set[str]:
         return self.lib_proxies.union(self.site_proxies)
+
+
+def parse_proxyscrape() -> Set[str]:
+    ps = ProxyScraper()
+    ps_set = ps.combine_results()
+    return ps_set

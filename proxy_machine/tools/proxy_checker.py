@@ -1,0 +1,39 @@
+import requests
+import logging
+from concurrent.futures import ThreadPoolExecutor, as_completed
+from typing import Union, Set
+from user_agent import generate_user_agent
+
+
+logger = logging.getLogger(__name__)
+url = "http://api.myip.com/"
+headers = {"User-Agent": generate_user_agent()}
+
+
+def check_proxy(proxy: str) -> Union[str, None]:
+    proxy = proxy.replace("\n", "")
+    proxies = {"http": proxy, "https": proxy}
+    proxy = proxy.replace("http://", "").split(":")  # type: ignore
+    ip = proxy[0]
+    try:
+        result = requests.get(url, headers=headers, proxies=proxies, timeout=6)
+        data = result.json()
+        if data.get("ip") == ip:
+            logger.info(f"Good proxy: {proxy[0]}:{proxy[1]} !!!")
+            return proxies.get("http")
+    except Exception:
+        logger.info(f"Dead proxy: {proxy[0]}:{proxy[1]}")
+    return None
+
+
+def run_checking(proxies_set: Set[str], workers=None) -> Set[str]:
+    checked_proxies = set()
+    with ThreadPoolExecutor(workers) as executor:
+        futures = []
+        for proxy in proxies_set:
+            futures.append(executor.submit(check_proxy, proxy))
+        for future in as_completed(futures):
+            c_proxy = future.result()
+            if c_proxy is not None:
+                checked_proxies.add(c_proxy)
+    return checked_proxies

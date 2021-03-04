@@ -1,13 +1,15 @@
 import json
 import logging
 from datetime import date
+from time import sleep
 from typing import List, Set
 
-import brotli
 import requests
+
+import brotli
 from user_agent import generate_user_agent
 
-from utils import short_url
+from .tools.proxies_manipulation import short_url
 
 logger = logging.getLogger(__name__)
 
@@ -34,13 +36,14 @@ class CheckerProxyArchive:
     def get_cookies(self) -> List[str]:
         """Loads cookies from the page and returns as string"""
         r_cookies = requests.get(
-            self.REFERER_URL, headers={"User-Agent": generate_user_agent()}
+            self.REFERER_URL, headers={"User-Agent": generate_user_agent()},
+            timeout=6
         )
         cookies_dict = r_cookies.cookies.get_dict()
         return [f"{k}={v}" for k, v in cookies_dict.items()]
 
     def parse_proxies(self) -> Set[str]:
-        r = requests.get(self.URL, headers=self.headers)
+        r = requests.get(self.URL, headers=self.headers, timeout=6)
         try:
             raw_proxies = brotli.decompress(r.content)
             proxies = raw_proxies.decode("utf-8")
@@ -60,3 +63,10 @@ class CheckerProxyArchive:
                 \n*This can happen if there is no proxies on site"
             )
         return self.proxies_set
+
+
+def parse_proxyarchive() -> Set[str]:
+    cpa = CheckerProxyArchive()
+    sleep(3)
+    cpa_set = cpa.parse_proxies()
+    return cpa_set

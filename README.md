@@ -12,7 +12,7 @@
 </h2>
 
 ## Description
-I did this project in order to boost views with the [teleboost :airplane:](https://github.com/crinny/teleboost/) in my Telegram channel. You can use it not only for boosting views but also for your own purposes. The maximum number of proxies you can get is 11.000 </br>
+I did this project in order to boost views with the [teleboost :airplane:](https://github.com/crinny/teleboost/) in my Telegram channel. You can use it not only for boosting views but also for your own purposes. The maximum number of proxies you can get is 13.000 </br>
 **List of sites for parsing proxies:**
 - [free-proxy-list.net/anonymous-proxy.html](http://free-proxy-list.net/anonymous-proxy.html)
 - [free-proxy-list.net](http://free-proxy-list.net)
@@ -23,7 +23,6 @@ I did this project in order to boost views with the [teleboost :airplane:](https
 - [api.proxyscrape.com](http://proxyscrape.com)
 - [checkerproxy.net](http://checkerproxy.net)
 - [proxy50-50.blogspot.com](http://proxy50-50.blogspot.com)
-- [proxy-ip-list.com](http://proxy-ip-list.com)
 - [hidester.com](http://hidester.com)
 - [awmproxy.net](http://awmproxy.net)
 - [api.openproxy.space](http://openproxy.space)
@@ -32,8 +31,17 @@ I did this project in order to boost views with the [teleboost :airplane:](https
 - [community.aliveproxy.com](http://community.aliveproxy.com)
 - [hidemy.name](http://hidemy.name/en)
 - [proxy11.com](http://proxy11.com)
-- [httptunnel.ge](http://www.httptunnel.ge)
-
+- [spys.me](http://spys.me/proxy.txt)
+- [proxysearcher](http://proxysearcher.sourceforge.net)
+- [fatezero](http://static.fatezero.org/tmp/proxy.txt)
+- [pubproxy](http://pubproxy.com/)
+- [proxylists](http://www.proxylists.net/http_highanon.txt)
+- [ab57ru](http://ab57.ru/downloads/proxylist.txt)
+- [shifty-https](http://raw.githubusercontent.com/ShiftyTR/Proxy-List/master/https.txt)
+- [shifty-http](http://raw.githubusercontent.com/ShiftyTR/Proxy-List/master/http.txt)
+- [sunny9577](http://raw.githubusercontent.com/sunny9577/proxy-scraper/master/proxies.txt)
+- [multiproxy](http://multiproxy.org/txt_all/proxy.txt)
+- [rootjazz](http://rootjazz.com/proxies/proxies.txt)
 
 ## Install 
 ```sh
@@ -46,7 +54,18 @@ pip3 install -r requirements.txt
 
 ## Usage
 ```sh
-python3 main.py
+python3 -m proxy_machine
+```
+#### Usage with proxy checker
+```sh
+python3 -m proxy_machine -pc
+```
+In this case, all parsed proxies will pass through the 
+checker(this will take **2-4 hours**, prepare to wait) and
+only working proxies will be written to *proxies.txt*.
+#### Usage with other options
+```sh
+python3 -m proxy_machine -h
 ```
 
 ## License

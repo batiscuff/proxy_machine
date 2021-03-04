@@ -4,7 +4,7 @@ from urllib.parse import urlparse
 
 def filtrate_ports(ip_port: str) -> bool:
     try:
-        ip, port = ip_port.split(":")
+        port = ip_port.split(":")[-1]
     except ValueError:
         return False
     if len(port) > 0:
@@ -15,10 +15,6 @@ def filtrate_ports(ip_port: str) -> bool:
 
 def short_url(url: str) -> str:
     return urlparse(url).netloc.upper()
-
-
-def normalize_for_hidemy(ip: str, port: str) -> str:
-    return f"{ip.text_content().strip()}:{port.text_content().strip()}"
 
 
 def parse_proxies(response: str) -> set:
