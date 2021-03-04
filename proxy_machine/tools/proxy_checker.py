@@ -1,9 +1,10 @@
-import requests
 import logging
 from concurrent.futures import ThreadPoolExecutor, as_completed
-from typing import Union, Set
-from user_agent import generate_user_agent
+from typing import Set, Union
 
+import requests
+
+from user_agent import generate_user_agent
 
 logger = logging.getLogger(__name__)
 url = "http://api.myip.com/"

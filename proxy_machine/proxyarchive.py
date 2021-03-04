@@ -36,8 +36,9 @@ class CheckerProxyArchive:
     def get_cookies(self) -> List[str]:
         """Loads cookies from the page and returns as string"""
         r_cookies = requests.get(
-            self.REFERER_URL, headers={"User-Agent": generate_user_agent()},
-            timeout=6
+            self.REFERER_URL,
+            headers={"User-Agent": generate_user_agent()},
+            timeout=6,
         )
         cookies_dict = r_cookies.cookies.get_dict()
         return [f"{k}={v}" for k, v in cookies_dict.items()]

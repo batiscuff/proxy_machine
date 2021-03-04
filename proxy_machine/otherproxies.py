@@ -140,9 +140,7 @@ def openproxy() -> Set[str]:
                 f"Proxies from {link.split('/')[-1]} were not loaded :("
             )
         time.sleep(1.3)  # crawling-delay
-    logger.info(
-        f"From {short_url(url)} were parsed {len(proxy_set5)} proxies"
-    )
+    logger.info(f"From {short_url(url)} were parsed {len(proxy_set5)} proxies")
     return proxy_set5
 
 
@@ -183,7 +181,9 @@ def aliveproxy() -> Set[str]:
             r = requests.get(url, headers=standard_headers)
             soup = BeautifulSoup(r.content, "lxml")
             plp_s7 = len(proxy_set7)  # previous len proxy_set7
-            for proxy in soup.find("table", {"class": "cm or"}).find_all("tr")[1:]:
+            for proxy in soup.find("table", {"class": "cm or"}).find_all("tr")[
+                1:
+            ]:
                 proxies = parse_proxies(str(proxy.find("td")))
                 proxy_set7.update(proxies)
             link = r.url.split("/")[-2]
@@ -357,7 +357,9 @@ def ab57ru() -> Set[str]:
 
 
 def shifty() -> Set[str]:
-    url = "http://raw.githubusercontent.com/ShiftyTR/Proxy-List/master/https.txt"
+    url = (
+        "http://raw.githubusercontent.com/ShiftyTR/Proxy-List/master/https.txt"
+    )
     proxies_set17 = set()
     try:
         r = requests.get(url, headers=standard_headers)
