@@ -42,6 +42,7 @@ I did this project in order to boost views with the [teleboost :airplane:](https
 - [sunny9577](http://raw.githubusercontent.com/sunny9577/proxy-scraper/master/proxies.txt)
 - [multiproxy](http://multiproxy.org/txt_all/proxy.txt)
 - [rootjazz](http://rootjazz.com/proxies/proxies.txt)
+- [proxyscan.io](http://www.proxyscan.io/api/proxy?format=txt&ping=500&limit=10000&type=http,https)
 
 ## Install 
 ```sh

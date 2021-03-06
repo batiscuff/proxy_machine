@@ -428,3 +428,26 @@ def root_jazz() -> Set[str]:
     except Exception:
         logger.exception(f"Proxies from {short_url(url)} were not loaded :(")
     return proxies_set22
+
+
+def proxyscan() -> Set[str]:
+    url = "http://www.proxyscan.io/api/proxy"
+    proxies_set23 = set()
+    params = (
+        ("ping", "500"),
+        ("limit", "100"),
+        ("type", "http,https"),
+        ("format", "txt")
+    )
+    for _ in range(8):
+        try:
+            r = requests.get(url, params=params, headers=standard_headers)
+            proxies = parse_proxies(r.text)
+            proxies_set23.update(proxies)
+        except Exception:
+            logger.exception(f"Proxies from {short_url(url)} were not loaded :(")
+    logger.info(
+        f"From {short_url(url)} were parsed {len(proxies_set23)} proxies"
+    )
+    return proxies_set23
+
