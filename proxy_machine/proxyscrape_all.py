@@ -55,7 +55,7 @@ class ProxyScraper:
             q=0.9,image/webp,*/*;q=0.8",
             "User-Agent": generate_user_agent(),
         }
-        r = requests.get(url, params=payload, headers=head)
+        r = requests.get(url, params=payload, headers=head, timeout=6)
         try:
             if r.ok:
                 data = r.text.encode()
