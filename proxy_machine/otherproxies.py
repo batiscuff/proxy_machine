@@ -121,7 +121,7 @@ def openproxy() -> Set[str]:
         data = r.json()
         for _dict in data:
             if len(_dict.get("protocols")) == 2:
-                links.add(f"https://openproxy.space/list/{_dict.get('code')}")
+                links.add(f"https://api.openproxy.space/list/{_dict.get('code')}")
     except Exception:
         logger.exception(f"Proxies from {short_url(url)} were not loaded :(")
 
@@ -129,8 +129,7 @@ def openproxy() -> Set[str]:
     for link in links:
         try:
             r = requests.get(link, headers=standard_headers)
-            soup = BeautifulSoup(r.content, "lxml")
-            proxies = parse_proxies(str(soup.find_all("script")[-6]))
+            proxies = parse_proxies(str(r.json().get("data")))
             proxy_set5.update(proxies)
             logger.info(
                 f"From {r.url.split('/')[-1]} section were parsed {len(proxies)} proxies"
