@@ -63,6 +63,10 @@ def main(workers=None, checker=False) -> None:
 
 
 if __name__ == "__main__":
+    # --- Disabling requests logger (set log level CRITICAL)
+    import requests
+    logging.getLogger(requests.__name__).setLevel(logging.CRITICAL)
+    # ---
     logging.basicConfig(
         format="{asctime} <{levelname}> {name}: {message}",
         datefmt="%Y-%m-%d %H:%M:%S",
