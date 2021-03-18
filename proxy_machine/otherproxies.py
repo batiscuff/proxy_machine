@@ -144,22 +144,6 @@ def openproxy() -> Set[str]:
     return proxy_set5
 
 
-def proxy_list_download() -> Set[str]:
-    url = "https://www.proxy-list.download/api/v0/get?l=en&t=http"
-    proxy_set6 = set()
-    try:
-        r = requests.get(url, headers=standard_headers, timeout=timeout)
-        proxies_list = r.json()[0].get("LISTA")
-        for proxy in proxies_list:
-            proxy_set6.add(f"{proxy.get('IP')}:{proxy.get('PORT')}")
-        logger.info(
-            f"From {short_url(r.url)} were parsed {len(proxy_set6)} proxies"
-        )
-    except Exception:
-        logger.exception(f"Proxies from {short_url(url)} were not loaded :(")
-    return proxy_set6
-
-
 def aliveproxy() -> Set[str]:
     urls = [
         "http://aliveproxy.com/fastest-proxies",
