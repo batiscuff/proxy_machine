@@ -435,3 +435,32 @@ def proxyscan() -> Set[str]:
     )
     return proxies_set23
 
+
+def proxy_list_download() -> Set[str]:
+    url = "https://www.proxy-list.download/api/v0/get?l=en&t=http"
+    pl_headers = {
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,\
+                   image/avif,image/webp,*/*;q=0.8",
+        "Accept-Language": "ru,en;q=0.5",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Alt-Used": "www.proxy-list.download",
+        "Cache-Control": "max-age=0",
+        "User-Agent": generate_user_agent()
+    }
+    proxy_set24 = set()
+    try:
+        r = requests.get(url, headers=pl_headers, timeout=timeout)
+
+        bytebrotl = brotli.decompress(r.content)
+        strbrotl = bytebrotl.decode("utf-8")
+        data = json.loads(strbrotl)
+
+        proxies_list = data[0].get("LISTA")
+        for proxy in proxies_list:
+            proxy_set24.add(f"{proxy.get('IP')}:{proxy.get('PORT')}")
+        logger.info(
+            f"From {short_url(r.url)} were parsed {len(proxy_set24)} proxies"
+        )
+    except Exception:
+        logger.exception(f"Proxies from {short_url(url)} were not loaded :(")
+    return proxy_set24

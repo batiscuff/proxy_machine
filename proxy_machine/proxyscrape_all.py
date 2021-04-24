@@ -21,8 +21,11 @@ class ProxyScraper:
 
     def proxyscrape_lib(self) -> Set[str]:
         """Parsing proxies from proxyscrape py library"""
-        free_proxies = scrapers.get_free_proxy_list_proxies()
-        ssl_proxies = scrapers.get_ssl_proxies()
+        try:
+            free_proxies = scrapers.get_free_proxy_list_proxies()
+            ssl_proxies = scrapers.get_ssl_proxies()
+        except Exception:
+            logger.info("Proxies from proxyscrape library not loaded :(")
         try:
             collector = create_collector("default", "http")
         except CollectorAlreadyDefinedError:
