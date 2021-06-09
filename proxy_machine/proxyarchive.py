@@ -25,7 +25,7 @@ class CheckerProxyArchive:
             "Accept": "*/*",
             "Accept-Encoding": "gzip, deflate, br",
             "Accept-Language": "ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7",
-            "Cookie": cookies[0],
+            "Cookie": cookies[0] if len(cookies) > 0 else "",
             "Referer": self.REFERER_URL,
             "sec-fetch-dest": "empty",
             "sec-fetch-mode": "cors",
