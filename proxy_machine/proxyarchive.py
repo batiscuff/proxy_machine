@@ -44,8 +44,8 @@ class CheckerProxyArchive:
         return [f"{k}={v}" for k, v in cookies_dict.items()]
 
     def parse_proxies(self) -> Set[str]:
-        r = requests.get(self.URL, headers=self.headers, timeout=6)
         try:
+            r = requests.get(self.URL, headers=self.headers, timeout=6)
             raw_proxies = brotli.decompress(r.content)
             proxies = raw_proxies.decode("utf-8")
             proxies = json.loads(proxies)
