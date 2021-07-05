@@ -447,7 +447,7 @@ def proxy_list_download() -> Set[str]:
         "Cache-Control": "max-age=0",
         "User-Agent": generate_user_agent()
     }
-    proxy_set24 = set()
+    proxies_set24 = set()
     try:
         r = requests.get(url, headers=pl_headers, timeout=timeout)
 
@@ -457,10 +457,94 @@ def proxy_list_download() -> Set[str]:
 
         proxies_list = data[0].get("LISTA")
         for proxy in proxies_list:
-            proxy_set24.add(f"{proxy.get('IP')}:{proxy.get('PORT')}")
+            proxies_set24.add(f"{proxy.get('IP')}:{proxy.get('PORT')}")
         logger.info(
-            f"From {short_url(r.url)} were parsed {len(proxy_set24)} proxies"
+            f"From {short_url(r.url)} were parsed {len(proxies_set24)} proxies"
         )
     except Exception:
         logger.exception(f"Proxies from {short_url(url)} were not loaded :(")
-    return proxy_set24
+    return proxies_set24
+
+
+def proxylistplus() -> Set[str]:
+    url = "https://list.proxylistplus.com/SSL-List-1"
+    proxies_set25 = set()
+    try:
+        r = requests.get(url, headers=standard_headers, timeout=timeout)
+        soup = BeautifulSoup(r.content, "lxml")
+        max_page_num = soup.find("select", {"onchange": "window.location=this.value"}).find_all("option")[-1].text
+        for page_num in range(1, int(max_page_num) + 1):
+            url = f"https://list.proxylistplus.com/SSL-List-{page_num}"
+            r = requests.get(url, headers=standard_headers, timeout=timeout)
+            soup = BeautifulSoup(r.content, "lxml")
+            table = soup.find("table", {"class": "bg"})
+            for tr in table.find_all("tr")[2:]:
+                tds = tr.find_all("td")
+                ip, port = tds[1].text.strip(), tds[2].text.strip()
+                proxies_set25.add(f"{ip}:{port}")
+        logger.info(
+            f"From {short_url(r.url)} were parsed {len(proxies_set25)} proxies"
+        )
+    except Exception:
+        logger.exception(f"Proxies from {short_url(url)} were not loaded :(")
+    return proxies_set25
+
+
+def proxyhub() -> Set[str]:
+    url = "https://www.proxyhub.me/ru/all-https-proxy-list.html"
+    proxies_set26 = set()
+    for page in range(1, 11):
+        try:
+            cookies = {"anonymity": "all", "page": f"{page}"}
+            r = requests.get(url, headers=standard_headers, cookies=cookies, timeout=timeout)
+            soup = BeautifulSoup(r.content, "lxml")
+            table = soup.find("table", {"class": "table-bordered"}).find("tbody")
+            for tr in table.find_all("tr"):
+                tds = tr.find_all('td')
+                proxies_set26.add(f"{tds[0].text}:{tds[1].text}")
+        except Exception:
+            logger.exception(f"Proxies from {short_url(url)} page: {page} were not loaded :(")
+    logger.info(
+        f"From {short_url(url)} were parsed {len(proxies_set26)} proxies"
+    )
+    return proxies_set26
+
+
+def proxylist4all() -> Set[str]:
+    url = "https://www.proxylist4all.com/wp-admin/admin-ajax.php"
+    proxies_set27 = set()
+    data = {"action": "getProxyList", "request": ""}
+    cookies = {"www.proxylist4all.com": "{}"}
+    try:
+        r = requests.post(url, data=data, cookies=cookies,
+                         headers=standard_headers, timeout=timeout)
+        for proxy in r.json():
+            proxies_set27.add(f"{proxy.get('host')}:{proxy.get('port')}")
+        logger.info(
+            f"From {short_url(r.url)} were parsed {len(proxies_set27)} proxies"
+        )
+    except Exception:
+        logger.exception(f"Proxies from {short_url(url)} were not loaded :(")
+    return proxies_set27
+
+
+def proxynova() -> Set[str]:
+    proxies_set28 = set()
+    url = "https://www.proxynova.com/proxy-server-list/"
+    try:
+        r = requests.get(url, headers=standard_headers, timeout=timeout)
+        soup = BeautifulSoup(r.content, "lxml")
+        table = soup.find("table", {"id": "tbl_proxy_list"}).find("tbody")
+        for tr in table.find_all("tr"):
+            if tr.attrs.get("data-proxy-id") is not None:
+                tds = tr.find_all("td")
+                host = tds[0].find("script").text.strip().split("'")[1]
+                port = tds[1].text.strip()
+            proxies_set28.add(f"{host}:{port}")
+        logger.info(
+            f"From {short_url(r.url)} were parsed {len(proxies_set28)} proxies"
+        )
+    except Exception:
+        logger.exception(f"Proxies from {short_url(url)} were not loaded :(")
+    return proxies_set28
+

@@ -43,6 +43,10 @@ I did this project in order to boost views with the [teleboost :airplane:](https
 - [rootjazz](http://rootjazz.com/proxies/proxies.txt)
 - [proxyscan.io](http://www.proxyscan.io/api/proxy?format=txt&ping=500&limit=10000&type=http,https)
 - [proxy-list.download](http://www.proxy-list.download/api/v0/get?l=en&t=http)
+- [proxylistplus.com](http://list.proxylistplus.com/SSL-List-1)
+- [proxyhub.me](http://www.proxyhub.me/ru/all-https-proxy-list.html)
+- [proxylist4all.com](http://www.proxylist4all.com)
+- [proxynova.com](http://www.proxynova.com/proxy-server-list)
 
 ## Install 
 ```sh

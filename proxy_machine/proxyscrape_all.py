@@ -21,6 +21,7 @@ class ProxyScraper:
 
     def proxyscrape_lib(self) -> Set[str]:
         """Parsing proxies from proxyscrape py library"""
+        free_proxies, ssl_proxies = set(), set()
         try:
             free_proxies = scrapers.get_free_proxy_list_proxies()
             ssl_proxies = scrapers.get_ssl_proxies()
