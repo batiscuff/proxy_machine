@@ -529,8 +529,8 @@ def proxylist4all() -> Set[str]:
 
 
 def proxynova() -> Set[str]:
-    proxies_set28 = set()
     url = "https://www.proxynova.com/proxy-server-list/"
+    proxies_set28 = set()
     try:
         r = requests.get(url, headers=standard_headers, timeout=timeout)
         soup = BeautifulSoup(r.content, "lxml")
@@ -548,3 +548,20 @@ def proxynova() -> Set[str]:
         logger.exception(f"Proxies from {short_url(url)} were not loaded :(")
     return proxies_set28
 
+
+def fatezero2() -> Set[str]:
+    url = "http://proxylist.fatezero.org/proxy.list"
+    proxies_set29 = set()
+    try:
+        r = requests.get(url, headers=standard_headers, timeout=timeout)
+        raw_proxies = r.text.strip().split("\n")
+        for raw_proxy in raw_proxies:
+            proxy = json.loads(raw_proxy)
+            if proxy.get("type") == "https":
+                proxies_set29.add(f"{proxy['host']}:{proxy['port']}")
+        logger.info(
+            f"From {short_url(r.url)} were parsed {len(proxies_set29)} proxies"
+        )
+    except Exception:
+        logger.exception(f"Proxies from {short_url(url)} were not loaded :(")
+    return proxies_set29
