@@ -47,6 +47,7 @@ I did this project in order to boost views with the [teleboost :airplane:](https
 - [proxyhub.me](http://www.proxyhub.me/ru/all-https-proxy-list.html)
 - [proxylist4all.com](http://www.proxylist4all.com)
 - [proxynova.com](http://www.proxynova.com/proxy-server-list)
+- [xiladaili.com](http://www.xiladaili.com/https)
 
 ## Install 
 ```sh

@@ -565,3 +565,22 @@ def fatezero2() -> Set[str]:
     except Exception:
         logger.exception(f"Proxies from {short_url(url)} were not loaded :(")
     return proxies_set29
+
+
+def xiladaili() -> Set[str]:
+    url = "http://www.xiladaili.com/https"
+    proxies_set30 = set()
+    max_page_num = 8
+    try:
+        for n in range(max_page_num):
+            url = f"http://www.xiladaili.com/https/{n}"
+            r = requests.get(url, headers={"User-Agent": generate_user_agent()})
+            if r.ok:
+                proxies_set30.update(parse_proxies(r.text))
+            time.sleep(.5)
+        logger.info(
+            f"From {short_url(url)} were parsed {len(proxies_set30)} proxies"
+        )
+    except Exception:
+        logger.exception(f"Proxies from {short_url(url)} were not loaded :(")
+    return proxies_set30
