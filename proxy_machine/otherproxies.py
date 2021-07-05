@@ -126,7 +126,7 @@ def openproxy() -> Set[str]:
     except Exception:
         logger.exception(f"Proxies from {short_url(url)} were not loaded :(")
 
-    logger.info(f"Parsing proxies from {short_url(r.url)}...")
+    logger.info(f"Parsing proxies from {short_url(url)}...")
     for link in links:
         try:
             r = requests.get(link, headers=standard_headers, timeout=timeout)
