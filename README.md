@@ -12,7 +12,7 @@
 </h2>
 
 ## Description
-I did this project in order to boost views with the [teleboost :airplane:](https://pypi.org/project/teleboost/) in my Telegram channel. You can use it not only for boosting views but also for your own purposes. The maximum number of proxies you can get is 13.000 </br>
+I did this project in order to boost views with the [teleboost :airplane:](https://pypi.org/project/teleboost/) in my Telegram channel. You can use it not only for boosting views but also for your own purposes. The maximum number of proxies you can get is 35.000 </br>
 **List of sites for parsing proxies:**
 - [free-proxy-list.net/anonymous-proxy.html](http://free-proxy-list.net/anonymous-proxy.html)
 - [free-proxy-list.net](http://free-proxy-list.net)
@@ -69,6 +69,8 @@ python3 -m proxy_machine -pc
 In this case, all parsed proxies will pass through the 
 checker(this will take **2-4 hours**, prepare to wait) and
 only working proxies will be written to *proxies.txt*.
+  However, remember that the main weakness of free proxies 
+is that they rapidly expire.
 #### Usage with other options
 ```sh
 python3 -m proxy_machine -h
