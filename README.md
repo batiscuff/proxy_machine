@@ -12,7 +12,11 @@
 </h2>
 
 ## Description
+<<<<<<< HEAD
 I did this project in order to boost views with the [teleboost :airplane:](https://pypi.org/project/teleboost/) in my Telegram channel. You can use it not only for boosting views but also for your own purposes. The maximum number of proxies you can get is 35.000 </br>
+=======
+I did this project in order to boost views with the [tg_booster :airplane:](https://github.com/batiscuff/tg_booster) in my Telegram channel. You can use it not only for boosting views but also for your own purposes. The maximum number of proxies you can get is 13.000 </br>
+>>>>>>> 45071dd0b8fa3dbea374c40990062fe78026b2b6
 **List of sites for parsing proxies:**
 - [free-proxy-list.net/anonymous-proxy.html](http://free-proxy-list.net/anonymous-proxy.html)
 - [free-proxy-list.net](http://free-proxy-list.net)
