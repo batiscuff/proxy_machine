@@ -46,6 +46,9 @@ class CheckerProxyArchive:
     def parse_proxies(self) -> Set[str]:
         try:
             r = requests.get(self.URL, headers=self.headers, timeout=6)
+            if not r.ok:
+                logger.info(f"Proxies from {short_url(r.url)} were not loaded :(")
+                return self.proxies_set
             raw_proxies = brotli.decompress(r.content)
             proxies = raw_proxies.decode("utf-8")
             proxies = json.loads(proxies)

@@ -50,8 +50,13 @@ def hidester() -> Set[str]:
     url = "https://hidester.com/proxydata/php/data.php"
     referer_url = "https://hidester.com/ru/public-proxy-ip-list/"
     user_agent = generate_user_agent()
-    with requests.Session() as s:
-        response = s.get(referer_url, headers=standard_headers, timeout=timeout)
+    proxies_set3 = set()
+    try:
+        with requests.Session() as s:
+            response = s.get(referer_url, headers=standard_headers, timeout=timeout)
+    except Exception:
+        logger.exception("Proxylink from {url} where not loaded :(")
+        return proxies_set3
     cookies_dict = response.cookies.get_dict()
     cookies = "".join([f"{k}={v}" for k, v in cookies_dict.items()])
     params = (
@@ -78,7 +83,6 @@ def hidester() -> Set[str]:
         "sec-fetch-site": "same-origin",
         "user-agent": user_agent,
     }
-    proxies_set3 = set()
     try:
         r = requests.get(url, params=params, headers=headers, timeout=10)
         decompress_uni = brotli.decompress(r.content)
