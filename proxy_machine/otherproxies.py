@@ -13,6 +13,7 @@ from user_agent import generate_user_agent
 
 from .tools.proxies_manipulation import parse_proxies, short_url
 
+
 logger = logging.getLogger(__name__)
 standard_headers = {"User-Agent": generate_user_agent()}
 timeout = 6
@@ -24,9 +25,7 @@ def proxy50_50() -> Set[str]:
     try:
         r = requests.get(url, headers=standard_headers, timeout=timeout)
         proxies_set.update(parse_proxies(r.text))
-        logger.info(
-            f"From {short_url(r.url)} were parsed {len(proxies_set)} proxies"
-        )
+        logger.info(f"From {short_url(r.url)} were parsed {len(proxies_set)} proxies")
     except Exception:
         logger.exception(f"Proxies from {short_url(url)} were not loaded :(")
     return proxies_set
@@ -38,9 +37,7 @@ def proxy_searcher() -> Set[str]:
     try:
         r = requests.get(url, headers=standard_headers, timeout=timeout)
         proxies_set2.update(parse_proxies(r.text))
-        logger.info(
-            f"From {short_url(r.url)} were parsed {len(proxies_set2)} proxies"
-        )
+        logger.info(f"From {short_url(r.url)} were parsed {len(proxies_set2)} proxies")
     except Exception:
         logger.exception(f"Proxies from {short_url(url)} were not loaded :(")
     return proxies_set2
@@ -91,9 +88,7 @@ def hidester() -> Set[str]:
             if raw_proxy.get("type") in ("http", "https"):
                 proxy = f"{raw_proxy['IP']}:{raw_proxy['PORT']}"
                 proxies_set3.add(proxy)
-        logger.info(
-            f"From {short_url(r.url)} were parsed {len(proxies_set3)} proxies"
-        )
+        logger.info(f"From {short_url(r.url)} were parsed {len(proxies_set3)} proxies")
     except Exception:
         logger.exception(f"Proxies from {short_url(url)} were not loaded :(")
     return proxies_set3
@@ -105,9 +100,7 @@ def awmproxy() -> Set[str]:
     try:
         r = requests.get(url, headers=standard_headers, timeout=timeout)
         proxy_set4.update(parse_proxies(r.text))
-        logger.info(
-            f"From {short_url(r.url)} were parsed {len(proxy_set4)} proxies"
-        )
+        logger.info(f"From {short_url(r.url)} were parsed {len(proxy_set4)} proxies")
     except Exception:
         logger.exception(f"Proxies from {short_url(url)} were not loaded :(")
     return proxy_set4
@@ -140,9 +133,7 @@ def openproxy() -> Set[str]:
                 f"From {r.url.split('/')[-1]} section were parsed {len(proxies)} proxies"
             )
         except Exception:
-            logger.exception(
-                f"Proxies from {link.split('/')[-1]} were not loaded :("
-            )
+            logger.exception(f"Proxies from {link.split('/')[-1]} were not loaded :(")
         time.sleep(1.3)  # crawling-delay
     logger.info(f"From {short_url(url)} were parsed {len(proxy_set5)} proxies")
     return proxy_set5
@@ -161,17 +152,13 @@ def aliveproxy() -> Set[str]:
         "http://aliveproxy.com/ca-proxy-list",
     ]
     proxy_set7 = set()  # type: ignore
-    logger.info(
-        f"Parsing proxies from {short_url(urls[0])}..."
-    )  # aliveproxy.com
+    logger.info(f"Parsing proxies from {short_url(urls[0])}...")  # aliveproxy.com
     for url in urls:
         try:
             r = requests.get(url, headers=standard_headers, timeout=timeout)
             soup = BeautifulSoup(r.content, "lxml")
             plp_s7 = len(proxy_set7)  # previous len proxy_set7
-            for proxy in soup.find("table", {"class": "cm or"}).find_all("tr")[
-                1:
-            ]:
+            for proxy in soup.find("table", {"class": "cm or"}).find_all("tr")[1:]:
                 proxies = parse_proxies(str(proxy.find("td")))
                 proxy_set7.update(proxies)
             link = r.url.split("/")[-2]
@@ -180,12 +167,8 @@ def aliveproxy() -> Set[str]:
             )
             time.sleep(1.3)  # crawling-delay
         except Exception:
-            logger.exception(
-                f"Proxies from {short_url(url)} were not loaded :("
-            )
-    logger.info(
-        f"From {short_url(urls[0])} were parsed {len(proxy_set7)} proxies"
-    )
+            logger.exception(f"Proxies from {short_url(url)} were not loaded :(")
+    logger.info(f"From {short_url(urls[0])} were parsed {len(proxy_set7)} proxies")
     return proxy_set7
 
 
@@ -198,9 +181,7 @@ def community_aliveproxy() -> Set[str]:
         for proxy in soup.find("table").find_all("tr")[1:]:
             proxies = parse_proxies(proxy.text)
             proxy_set8.update(proxies)
-        logger.info(
-            f"From {short_url(r.url)} were parsed {len(proxy_set8)} proxies"
-        )
+        logger.info(f"From {short_url(r.url)} were parsed {len(proxy_set8)} proxies")
     except Exception:
         logger.exception(f"Proxies from {short_url(url)} were not loaded :(")
     return proxy_set8
@@ -227,18 +208,16 @@ AAEGBUSUYUZVEVNVGZW"""
             ("start", n),
         )
         try:
-            r = requests.get(url, params=params, headers=standard_headers, timeout=timeout)
+            r = requests.get(
+                url, params=params, headers=standard_headers, timeout=timeout
+            )
             soup = BeautifulSoup(r.content, "lxml")
             for tr in soup.find("table").find_all("tr")[1:]:
                 tds = tr.find_all("td")
                 proxies_set9.add(f"{tds[0].text}:{tds[1].text}")
         except Exception:
-            logger.exception(
-                f"Proxies from {short_url(url)} were not loaded :("
-            )
-    logger.info(
-        f"From {short_url(r.url)} were parsed {len(proxies_set9)} proxies"
-    )
+            logger.exception(f"Proxies from {short_url(url)} were not loaded :(")
+    logger.info(f"From {short_url(r.url)} were parsed {len(proxies_set9)} proxies")
     return proxies_set9
 
 
@@ -251,9 +230,7 @@ def proxy11() -> Set[str]:
         for data in data_list:
             proxy = f"{data.get('ip')}:{data.get('port')}"
             proxies_set10.add(proxy)
-        logger.info(
-            f"From {short_url(r.url)} were parsed {len(proxies_set10)} proxies"
-        )
+        logger.info(f"From {short_url(r.url)} were parsed {len(proxies_set10)} proxies")
     except Exception:
         logger.exception(f"Proxies from {short_url(url)} were not loaded :(")
     return proxies_set10
@@ -265,9 +242,7 @@ def httptunnel() -> Set[str]:
     try:
         r = requests.get(url, headers=standard_headers, timeout=timeout)
         proxies_set11.update(parse_proxies(r.text))
-        logger.info(
-            f"From {short_url(r.url)} were parsed {len(proxies_set11)} proxies"
-        )
+        logger.info(f"From {short_url(r.url)} were parsed {len(proxies_set11)} proxies")
     except Exception:
         logger.exception(f"Proxies from {short_url(url)} were not loaded :(")
     return proxies_set11
@@ -279,9 +254,7 @@ def spys_me() -> Set[str]:
     try:
         r = requests.get(url, headers=standard_headers, timeout=timeout)
         proxies_set12.update(parse_proxies(r.text))
-        logger.info(
-            f"From {short_url(r.url)} were parsed {len(proxies_set12)} proxies"
-        )
+        logger.info(f"From {short_url(r.url)} were parsed {len(proxies_set12)} proxies")
     except Exception:
         logger.exception(f"Proxies from {short_url(url)} were not loaded :(")
     return proxies_set12
@@ -293,9 +266,7 @@ def fatezero() -> Set[str]:
     try:
         r = requests.get(url, headers=standard_headers, timeout=timeout)
         proxies_set13.update(parse_proxies(r.text))
-        logger.info(
-            f"From {short_url(r.url)} were parsed {len(proxies_set13)} proxies"
-        )
+        logger.info(f"From {short_url(r.url)} were parsed {len(proxies_set13)} proxies")
     except Exception:
         logger.exception(f"Proxies from {short_url(url)} were not loaded :(")
     return proxies_set13
@@ -308,9 +279,7 @@ def pubproxy() -> Set[str]:
     try:
         r = requests.get(url, params=params, headers=standard_headers, timeout=timeout)
         proxies_set14.update(parse_proxies(r.text))
-        logger.info(
-            f"From {short_url(r.url)} were parsed {len(proxies_set14)} proxies"
-        )
+        logger.info(f"From {short_url(r.url)} were parsed {len(proxies_set14)} proxies")
     except Exception:
         logger.exception(f"Proxies from {short_url(url)} were not loaded :(")
     return proxies_set14
@@ -322,9 +291,7 @@ def proxylists() -> Set[str]:
     try:
         r = requests.get(url, headers=standard_headers, timeout=timeout)
         proxies_set15.update(parse_proxies(r.text))
-        logger.info(
-            f"From {short_url(r.url)} were parsed {len(proxies_set15)} proxies"
-        )
+        logger.info(f"From {short_url(r.url)} were parsed {len(proxies_set15)} proxies")
     except Exception:
         logger.exception(f"Proxies from {short_url(url)} were not loaded :(")
     return proxies_set15
@@ -336,41 +303,31 @@ def ab57ru() -> Set[str]:
     try:
         r = requests.get(url, headers=standard_headers, timeout=timeout)
         proxies_set16.update(parse_proxies(r.text))
-        logger.info(
-            f"From {short_url(r.url)} were parsed {len(proxies_set16)} proxies"
-        )
+        logger.info(f"From {short_url(r.url)} were parsed {len(proxies_set16)} proxies")
     except Exception:
         logger.exception(f"Proxies from {short_url(url)} were not loaded :(")
     return proxies_set16
 
 
 def shifty() -> Set[str]:
-    url = (
-        "http://raw.githubusercontent.com/ShiftyTR/Proxy-List/master/https.txt"
-    )
+    url = "http://raw.githubusercontent.com/ShiftyTR/Proxy-List/master/https.txt"
     proxies_set17 = set()
     try:
         r = requests.get(url, headers=standard_headers, timeout=timeout)
         proxies_set17.update(parse_proxies(r.text))
-        logger.info(
-            f"From {short_url(r.url)} were parsed {len(proxies_set17)} proxies"
-        )
+        logger.info(f"From {short_url(r.url)} were parsed {len(proxies_set17)} proxies")
     except Exception:
         logger.exception(f"Proxies from {short_url(url)} were not loaded :(")
     return proxies_set17
 
 
 def shifty2() -> Set[str]:
-    url = (
-        "http://raw.githubusercontent.com/ShiftyTR/Proxy-List/master/http.txt"
-    )
+    url = "http://raw.githubusercontent.com/ShiftyTR/Proxy-List/master/http.txt"
     proxies_set18 = set()
     try:
         r = requests.get(url, headers=standard_headers, timeout=timeout)
         proxies_set18.update(parse_proxies(r.text))
-        logger.info(
-            f"From {short_url(r.url)} were parsed {len(proxies_set18)} proxies"
-        )
+        logger.info(f"From {short_url(r.url)} were parsed {len(proxies_set18)} proxies")
     except Exception:
         logger.exception(f"Proxies from {short_url(url)} were not loaded :(")
     return proxies_set18
@@ -382,9 +339,7 @@ def sunny9577() -> Set[str]:
     try:
         r = requests.get(url, headers=standard_headers, timeout=timeout)
         proxies_set19.update(parse_proxies(r.text))
-        logger.info(
-            f"From {short_url(r.url)} were parsed {len(proxies_set19)} proxies"
-        )
+        logger.info(f"From {short_url(r.url)} were parsed {len(proxies_set19)} proxies")
     except Exception:
         logger.exception(f"Proxies from {short_url(url)} were not loaded :(")
     return proxies_set19
@@ -396,9 +351,7 @@ def multiproxy() -> Set[str]:
     try:
         r = requests.get(url, headers=standard_headers, timeout=timeout)
         proxies_set21.update(parse_proxies(r.text))
-        logger.info(
-            f"From {short_url(r.url)} were parsed {len(proxies_set21)} proxies"
-        )
+        logger.info(f"From {short_url(r.url)} were parsed {len(proxies_set21)} proxies")
     except Exception:
         logger.exception(f"Proxies from {short_url(url)} were not loaded :(")
     return proxies_set21
@@ -410,9 +363,7 @@ def root_jazz() -> Set[str]:
     try:
         r = requests.get(url, headers=standard_headers, timeout=timeout)
         proxies_set22.update(parse_proxies(r.text))
-        logger.info(
-            f"From {short_url(r.url)} were parsed {len(proxies_set22)} proxies"
-        )
+        logger.info(f"From {short_url(r.url)} were parsed {len(proxies_set22)} proxies")
     except Exception:
         logger.exception(f"Proxies from {short_url(url)} were not loaded :(")
     return proxies_set22
@@ -425,18 +376,18 @@ def proxyscan() -> Set[str]:
         ("ping", "500"),
         ("limit", "100"),
         ("type", "http,https"),
-        ("format", "txt")
+        ("format", "txt"),
     )
     for _ in range(8):
         try:
-            r = requests.get(url, params=params, headers=standard_headers, timeout=timeout)
+            r = requests.get(
+                url, params=params, headers=standard_headers, timeout=timeout
+            )
             proxies = parse_proxies(r.text)
             proxies_set23.update(proxies)
         except Exception:
             logger.exception(f"Proxies from {short_url(url)} were not loaded :(")
-    logger.info(
-        f"From {short_url(url)} were parsed {len(proxies_set23)} proxies"
-    )
+    logger.info(f"From {short_url(url)} were parsed {len(proxies_set23)} proxies")
     return proxies_set23
 
 
@@ -449,7 +400,7 @@ def proxy_list_download() -> Set[str]:
         "Accept-Encoding": "gzip, deflate, br",
         "Alt-Used": "www.proxy-list.download",
         "Cache-Control": "max-age=0",
-        "User-Agent": generate_user_agent()
+        "User-Agent": generate_user_agent(),
     }
     proxies_set24 = set()
     try:
@@ -462,9 +413,7 @@ def proxy_list_download() -> Set[str]:
         proxies_list = data[0].get("LISTA")
         for proxy in proxies_list:
             proxies_set24.add(f"{proxy.get('IP')}:{proxy.get('PORT')}")
-        logger.info(
-            f"From {short_url(r.url)} were parsed {len(proxies_set24)} proxies"
-        )
+        logger.info(f"From {short_url(r.url)} were parsed {len(proxies_set24)} proxies")
     except Exception:
         logger.exception(f"Proxies from {short_url(url)} were not loaded :(")
     return proxies_set24
@@ -476,7 +425,11 @@ def proxylistplus() -> Set[str]:
     try:
         r = requests.get(url, headers=standard_headers, timeout=timeout)
         soup = BeautifulSoup(r.content, "lxml")
-        max_page_num = soup.find("select", {"onchange": "window.location=this.value"}).find_all("option")[-1].text
+        max_page_num = (
+            soup.find("select", {"onchange": "window.location=this.value"})
+            .find_all("option")[-1]
+            .text
+        )
         for page_num in range(1, int(max_page_num) + 1):
             url = f"https://list.proxylistplus.com/SSL-List-{page_num}"
             r = requests.get(url, headers=standard_headers, timeout=timeout)
@@ -486,9 +439,7 @@ def proxylistplus() -> Set[str]:
                 tds = tr.find_all("td")
                 ip, port = tds[1].text.strip(), tds[2].text.strip()
                 proxies_set25.add(f"{ip}:{port}")
-        logger.info(
-            f"From {short_url(r.url)} were parsed {len(proxies_set25)} proxies"
-        )
+        logger.info(f"From {short_url(r.url)} were parsed {len(proxies_set25)} proxies")
     except Exception:
         logger.exception(f"Proxies from {short_url(url)} were not loaded :(")
     return proxies_set25
@@ -500,17 +451,19 @@ def proxyhub() -> Set[str]:
     for page in range(1, 11):
         try:
             cookies = {"anonymity": "all", "page": f"{page}"}
-            r = requests.get(url, headers=standard_headers, cookies=cookies, timeout=timeout)
+            r = requests.get(
+                url, headers=standard_headers, cookies=cookies, timeout=timeout
+            )
             soup = BeautifulSoup(r.content, "lxml")
             table = soup.find("table", {"class": "table-bordered"}).find("tbody")
             for tr in table.find_all("tr"):
-                tds = tr.find_all('td')
+                tds = tr.find_all("td")
                 proxies_set26.add(f"{tds[0].text}:{tds[1].text}")
         except Exception:
-            logger.exception(f"Proxies from {short_url(url)} page: {page} were not loaded :(")
-    logger.info(
-        f"From {short_url(url)} were parsed {len(proxies_set26)} proxies"
-    )
+            logger.exception(
+                f"Proxies from {short_url(url)} page: {page} were not loaded :("
+            )
+    logger.info(f"From {short_url(url)} were parsed {len(proxies_set26)} proxies")
     return proxies_set26
 
 
@@ -520,13 +473,12 @@ def proxylist4all() -> Set[str]:
     data = {"action": "getProxyList", "request": ""}
     cookies = {"www.proxylist4all.com": "{}"}
     try:
-        r = requests.post(url, data=data, cookies=cookies,
-                         headers=standard_headers, timeout=timeout)
+        r = requests.post(
+            url, data=data, cookies=cookies, headers=standard_headers, timeout=timeout
+        )
         for proxy in r.json():
             proxies_set27.add(f"{proxy.get('host')}:{proxy.get('port')}")
-        logger.info(
-            f"From {short_url(r.url)} were parsed {len(proxies_set27)} proxies"
-        )
+        logger.info(f"From {short_url(r.url)} were parsed {len(proxies_set27)} proxies")
     except Exception:
         logger.exception(f"Proxies from {short_url(url)} were not loaded :(")
     return proxies_set27
@@ -545,9 +497,7 @@ def proxynova() -> Set[str]:
                 host = tds[0].find("script").text.strip().split("'")[1]
                 port = tds[1].text.strip()
             proxies_set28.add(f"{host}:{port}")
-        logger.info(
-            f"From {short_url(r.url)} were parsed {len(proxies_set28)} proxies"
-        )
+        logger.info(f"From {short_url(r.url)} were parsed {len(proxies_set28)} proxies")
     except Exception:
         logger.exception(f"Proxies from {short_url(url)} were not loaded :(")
     return proxies_set28
@@ -563,9 +513,7 @@ def fatezero2() -> Set[str]:
             proxy = json.loads(raw_proxy)
             if proxy.get("type") == "https":
                 proxies_set29.add(f"{proxy['host']}:{proxy['port']}")
-        logger.info(
-            f"From {short_url(r.url)} were parsed {len(proxies_set29)} proxies"
-        )
+        logger.info(f"From {short_url(r.url)} were parsed {len(proxies_set29)} proxies")
     except Exception:
         logger.exception(f"Proxies from {short_url(url)} were not loaded :(")
     return proxies_set29
@@ -578,13 +526,32 @@ def xiladaili() -> Set[str]:
     try:
         for n in range(max_page_num):
             url = f"http://www.xiladaili.com/https/{n}"
-            r = requests.get(url, headers={"User-Agent": generate_user_agent()})
+            r = requests.get(url, headers=standard_headers, timeout=timeout)
             if r.ok:
                 proxies_set30.update(parse_proxies(r.text))
-            time.sleep(.5)
-        logger.info(
-            f"From {short_url(url)} were parsed {len(proxies_set30)} proxies"
-        )
+            time.sleep(0.5)
+        logger.info(f"From {short_url(r.url)} were parsed {len(proxies_set30)} proxies")
     except Exception:
         logger.exception(f"Proxies from {short_url(url)} were not loaded :(")
     return proxies_set30
+
+
+def geonode() -> Set[str]:
+    url = "https://proxylist.geonode.com/api/proxy-list"
+    params = {
+        "limit": 500,
+        "page": 1,
+        "sort_by": "lastChecked",
+        "sort_type": "desc",
+        "protocols": "https",
+    }
+    proxies_set31 = set()
+    try:
+        r = requests.get(url, params=params, headers=standard_headers, timeout=timeout)
+        r_data = r.json()
+        for proxy in r_data.get("data"):
+            proxies_set31.add(f"{proxy.get('ip')}:{proxy.get('port')}")
+        logger.info(f"From {short_url(url)} were parsed {len(proxies_set31)} proxies")
+    except Exception:
+        logger.exception(f"Proxies from {short_url(url)} were not loaded :(")
+    return proxies_set31
