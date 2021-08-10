@@ -28,7 +28,7 @@ class ProxyScraper:
         except Exception:
             logger.info("Proxies from proxyscrape library not loaded :(")
         try:
-            collector = create_collector("default", "http")
+            collector = create_collector("default", "https")
         except CollectorAlreadyDefinedError:
             collector = get_collector("default")
         collector_proxies = set(collector.get_proxies())
