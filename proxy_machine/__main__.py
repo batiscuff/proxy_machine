@@ -12,6 +12,19 @@ from .proxyscrape_all import parse_proxyscrape
 from .tools.proxies_manipulation import filtrate_ports, prepare_proxy
 from .tools.proxy_checker import check_proxy, run_checking
 
+# --- Disabling requests logger (set log level CRITICAL)
+import requests
+
+logging.getLogger(requests.__name__).setLevel(logging.CRITICAL)
+# ---
+logging.basicConfig(
+    format="{asctime} <{levelname}> {name}: {message}",
+    datefmt="%Y-%m-%d %H:%M:%S",
+    style="{",
+    level=logging.INFO,
+)
+logger = logging.getLogger("proxy_machine")
+
 
 def load_proxies_func() -> List[Any]:
     # Functions that don't parsing proxies
@@ -33,7 +46,7 @@ def save_proxies(filename: str, proxies: Set[str]) -> None:
         logger.info(f"{len(proxies)} proxies were recorded in {filename}")
 
 
-def main(workers=None, checker=False) -> None:
+def main(filename: str, workers=None, checker=False) -> None:
     start = time()
     proxies = set()
     parsers = load_proxies_func()
@@ -43,8 +56,11 @@ def main(workers=None, checker=False) -> None:
         for parser in parsers:
             futures.append(executor.submit(parser))
         for future in as_completed(futures):
-            parser_proxies = future.result()
-            proxies.update(parser_proxies)
+            try:
+                parser_proxies = future.result()
+                proxies.update(parser_proxies)
+            except Exception as e:
+                print(e)
 
     # Clearing unnecessary lines. (These can be from proxyscrape_all)
     prepared_proxies = {
@@ -58,22 +74,11 @@ def main(workers=None, checker=False) -> None:
         checked_proxies = run_checking(prepared_proxies, workers)
         prepared_proxies = {f"{proxy}\n" for proxy in checked_proxies}
 
-    save_proxies("proxies.txt", prepared_proxies)
+    save_proxies(f"{filename}.txt", prepared_proxies)
     logger.info(f"Program execution time: {time() - start:.2f} sec")
 
 
-if __name__ == "__main__":
-    # --- Disabling requests logger (set log level CRITICAL)
-    import requests
-    logging.getLogger(requests.__name__).setLevel(logging.CRITICAL)
-    # ---
-    logging.basicConfig(
-        format="{asctime} <{levelname}> {name}: {message}",
-        datefmt="%Y-%m-%d %H:%M:%S",
-        style="{",
-        level=logging.INFO,
-    )
-    logger = logging.getLogger("proxy_machine")
+def cli():
     argparser = argparse.ArgumentParser()
     argparser.add_argument(
         "-pc",
@@ -81,7 +86,7 @@ if __name__ == "__main__":
         default=False,
         action="store_true",
         help="If you want to keep only working proxies use this. "
-        "Default set False.",
+             "Default set False.",
     )
     argparser.add_argument(
         "-w",
@@ -89,9 +94,16 @@ if __name__ == "__main__":
         default=None,
         type=int,
         help="The number of workers that is transferred to "
-        "ThreadPoolExecutor. Default set None. Because "
-        "python himself determines the required number of workers.",
+             "ThreadPoolExecutor. Default set None. Because "
+             "python himself determines the required number of workers.",
+    )
+    argparser.add_argument(
+        "-f",
+        "--file-name",
+        default="proxies",
+        type=str,
+        help="Name of the file you want to save",
     )
 
     args = argparser.parse_args()
-    main(workers=args.workers, checker=args.proxy_checker)
+    main(filename=args.file_name, workers=args.workers, checker=args.proxy_checker)
