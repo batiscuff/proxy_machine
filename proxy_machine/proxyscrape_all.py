@@ -31,16 +31,16 @@ class ProxyScraper:
             collector = create_collector("default", "https")
         except CollectorAlreadyDefinedError:
             collector = get_collector("default")
-        collector_proxies = set(collector.get_proxies())
+        collector_proxies = (
+            set(collector.get_proxies()) if collector.get_proxies() else set()
+        )
         proxies = free_proxies | ssl_proxies | collector_proxies
 
         for proxy in proxies:
             prepare_proxy = f"{proxy.host}:{proxy.port}"
             if prepare_proxy not in self.proxy_set:
                 self.proxy_set.add(prepare_proxy)
-        logger.info(
-            f"From proxyscrape_lib were parsed {len(self.proxy_set)} proxies"
-        )
+        logger.info(f"From proxyscrape_lib were parsed {len(self.proxy_set)} proxies")
         return self.proxy_set
 
     def proxyscrape_site(self) -> Set[str]:
@@ -69,9 +69,7 @@ class ProxyScraper:
                 f"From {short_url(r.url)} were parsed {len(self.proxy_set2)} proxies"
             )
         except Exception:
-            logger.exception(
-                f"Proxies from {short_url(r.url)} were not loaded :("
-            )
+            logger.exception(f"Proxies from {short_url(r.url)} were not loaded :(")
         return self.proxy_set2
 
     def combine_results(self) -> Set[str]:

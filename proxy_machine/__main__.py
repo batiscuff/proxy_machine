@@ -48,9 +48,7 @@ def main(workers=None, checker=False) -> None:
 
     # Clearing unnecessary lines. (These can be from proxyscrape_all)
     prepared_proxies = {
-        f"{prepare_proxy(proxy)}\n"
-        for proxy in proxies
-        if filtrate_ports(proxy)
+        f"{prepare_proxy(proxy)}\n" for proxy in proxies if filtrate_ports(proxy)
     }
 
     if checker:
@@ -65,6 +63,7 @@ def main(workers=None, checker=False) -> None:
 if __name__ == "__main__":
     # --- Disabling requests logger (set log level CRITICAL)
     import requests
+
     logging.getLogger(requests.__name__).setLevel(logging.CRITICAL)
     # ---
     logging.basicConfig(
@@ -80,8 +79,7 @@ if __name__ == "__main__":
         "--proxy-checker",
         default=False,
         action="store_true",
-        help="If you want to keep only working proxies use this. "
-        "Default set False.",
+        help="If you want to keep only working proxies use this. " "Default set False.",
     )
     argparser.add_argument(
         "-w",

@@ -53,10 +53,7 @@ class CheckerProxyArchive:
             proxies = raw_proxies.decode("utf-8")
             proxies = json.loads(proxies)
             for proxy in proxies:
-                if (
-                    proxy.get("type") in (1, 2)
-                    and 210 < proxy.get("timeout") < 6000
-                ):
+                if proxy.get("type") in (1, 2) and 210 < proxy.get("timeout") < 6000:
                     self.proxies_set.add(proxy.get("addr"))
             logger.info(
                 f"From {short_url(r.url)} were parsed {len(self.proxies_set)} proxies"
