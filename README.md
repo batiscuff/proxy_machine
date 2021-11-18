@@ -88,6 +88,9 @@ python3 -m proxy_machine -h
 
 ## Future Development
 
+[x] - Add async checking of the proxy to improve timing. <br/>
+[x] - Improve cli options and args. <br/>
+[ ] - Upload to pypi. <br/>
 [ ] - Add proxy response time to the results by calculating execution in the checker <br />
 [ ] - Add proxy location to the results <br/>
 [ ] - Add filtering and sorting options to the results <br/>
