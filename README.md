@@ -50,6 +50,11 @@ The maximum number of proxies you can get is 35.000 </br>
 - [proxynova.com](http://www.proxynova.com/proxy-server-list)
 - [xiladaili.com](http://www.xiladaili.com/https)
 
+## Install through pip
+
+```sh
+pip install proxy_machine
+```
 ## Install 
 ```sh
 sudo apt update && sudo apt upgrade
@@ -62,6 +67,10 @@ pip3 install -r requirements.txt
 ## Usage
 ```sh
 python3 -m proxy_machine
+```
+or
+```shell
+proxy_machine --help
 ```
 #### Usage with proxy checker
 ```sh
@@ -77,6 +86,13 @@ is that they rapidly expire.
 python3 -m proxy_machine -h
 ```
 
+## Future Development
+
+[ ] - Add proxy response time to the results by calculating execution in the checker <br />
+[ ] - Add proxy location to the results <br/>
+[ ] - Add filtering and sorting options to the results <br/>
+[ ] - Add early stop, if the required number of proxies are reached with given constrains <br/>
+[ ] - Add more websites to retrieve proxies
+
 ## License
-**Copyright © 2021 [batiscuff](https://github.com/batiscuff)** <br />
 **This project is GNU [General Public License v3.0](https://github.com/batiscuff/proxy_machine/blob/main/LICENSE) licensed**
