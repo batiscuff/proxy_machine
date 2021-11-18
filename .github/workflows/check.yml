@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: build_publish_w_tag
+name: check_style_of_code_base
 
 # Controls when the workflow will run
 on:
