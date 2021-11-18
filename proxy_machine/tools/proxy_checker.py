@@ -5,7 +5,6 @@ from typing import Set, Union
 
 import httpx
 import requests
-
 from user_agent import generate_user_agent
 
 logger = logging.getLogger(__name__)

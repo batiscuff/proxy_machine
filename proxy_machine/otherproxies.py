@@ -1,18 +1,15 @@
 import json
 import logging
-import re
 import time
 from datetime import datetime as dt
 from typing import Set
 
-import requests
-
 import brotli
+import requests
 from bs4 import BeautifulSoup
 from user_agent import generate_user_agent
 
 from .tools.proxies_manipulation import parse_proxies, short_url
-
 
 logger = logging.getLogger(__name__)
 standard_headers = {"User-Agent": generate_user_agent()}
@@ -129,9 +126,7 @@ def openproxy() -> Set[str]:
             r = requests.get(link, headers=standard_headers, timeout=timeout)
             proxies = parse_proxies(str(r.json().get("data")))
             proxy_set5.update(proxies)
-            logger.info(
-                f"From {r.url.split('/')[-1]} section were parsed {len(proxies)} proxies"
-            )
+            logger.info(f"From {r.url.split('/')[-1]} section were parsed {len(proxies)} proxies")
         except Exception:
             logger.exception(f"Proxies from {link.split('/')[-1]} were not loaded :(")
         time.sleep(1.3)  # crawling-delay
@@ -162,9 +157,7 @@ def aliveproxy() -> Set[str]:
                 proxies = parse_proxies(str(proxy.find("td")))
                 proxy_set7.update(proxies)
             link = r.url.split("/")[-2]
-            logger.info(
-                f"From {link} section were parsed {len(proxy_set7) - plp_s7} proxies"
-            )
+            logger.info(f"From {link} section were parsed {len(proxy_set7) - plp_s7} proxies")
             time.sleep(1.3)  # crawling-delay
         except Exception:
             logger.exception(f"Proxies from {short_url(url)} were not loaded :(")
@@ -208,9 +201,7 @@ AAEGBUSUYUZVEVNVGZW"""
             ("start", n),
         )
         try:
-            r = requests.get(
-                url, params=params, headers=standard_headers, timeout=timeout
-            )
+            r = requests.get(url, params=params, headers=standard_headers, timeout=timeout)
             soup = BeautifulSoup(r.content, "lxml")
             for tr in soup.find("table").find_all("tr")[1:]:
                 tds = tr.find_all("td")
@@ -380,9 +371,7 @@ def proxyscan() -> Set[str]:
     )
     for _ in range(8):
         try:
-            r = requests.get(
-                url, params=params, headers=standard_headers, timeout=timeout
-            )
+            r = requests.get(url, params=params, headers=standard_headers, timeout=timeout)
             proxies = parse_proxies(r.text)
             proxies_set23.update(proxies)
         except Exception:
@@ -425,11 +414,7 @@ def proxylistplus() -> Set[str]:
     try:
         r = requests.get(url, headers=standard_headers, timeout=timeout)
         soup = BeautifulSoup(r.content, "lxml")
-        max_page_num = (
-            soup.find("select", {"onchange": "window.location=this.value"})
-            .find_all("option")[-1]
-            .text
-        )
+        max_page_num = soup.find("select", {"onchange": "window.location=this.value"}).find_all("option")[-1].text
         for page_num in range(1, int(max_page_num) + 1):
             url = f"https://list.proxylistplus.com/SSL-List-{page_num}"
             r = requests.get(url, headers=standard_headers, timeout=timeout)
@@ -451,18 +436,14 @@ def proxyhub() -> Set[str]:
     for page in range(1, 11):
         try:
             cookies = {"anonymity": "all", "page": f"{page}"}
-            r = requests.get(
-                url, headers=standard_headers, cookies=cookies, timeout=timeout
-            )
+            r = requests.get(url, headers=standard_headers, cookies=cookies, timeout=timeout)
             soup = BeautifulSoup(r.content, "lxml")
             table = soup.find("table", {"class": "table-bordered"}).find("tbody")
             for tr in table.find_all("tr"):
                 tds = tr.find_all("td")
                 proxies_set26.add(f"{tds[0].text}:{tds[1].text}")
         except Exception:
-            logger.exception(
-                f"Proxies from {short_url(url)} page: {page} were not loaded :("
-            )
+            logger.exception(f"Proxies from {short_url(url)} page: {page} were not loaded :(")
     logger.info(f"From {short_url(url)} were parsed {len(proxies_set26)} proxies")
     return proxies_set26
 
@@ -473,9 +454,7 @@ def proxylist4all() -> Set[str]:
     data = {"action": "getProxyList", "request": ""}
     cookies = {"www.proxylist4all.com": "{}"}
     try:
-        r = requests.post(
-            url, data=data, cookies=cookies, headers=standard_headers, timeout=timeout
-        )
+        r = requests.post(url, data=data, cookies=cookies, headers=standard_headers, timeout=timeout)
         for proxy in r.json():
             proxies_set27.add(f"{proxy.get('host')}:{proxy.get('port')}")
         logger.info(f"From {short_url(r.url)} were parsed {len(proxies_set27)} proxies")
