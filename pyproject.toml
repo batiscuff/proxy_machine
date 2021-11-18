@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "proxy_machine"
-version = "0.0.1"
+version = "0.1.0"
 description = "Parse 30.000 free proxies!"
 license = "GPL-3.0-only"
 authors = ["batiscuff <batiscuff@gmail.com>", "zekiblue"]
