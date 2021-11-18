@@ -53,7 +53,7 @@ The maximum number of proxies you can get is 35.000 </br>
 ## Install through pip
 
 ```sh
-pip install proxy_machine
+pip install proxy-machine
 ```
 ## Install 
 ```sh
