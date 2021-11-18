@@ -1,0 +1,46 @@
+[tool.poetry]
+name = "proxy_machine"
+version = "0.0.1"
+description = "Parse 30.000 free proxies!"
+license = "GPL-3.0-only"
+authors = ["batiscuff <batiscuff@gmail.com>", "zekiblue"]
+homepage = "https://github.com/zekiblue/proxy_machine"
+repository = "https://github.com/zekiblue/proxy_machine"
+readme = "README.md"
+exclude = ["scripts", "Makefile"]
+
+
+[tool.poetry.dependencies]
+python = "^3.9"
+typer = "^0.4.0"
+Brotli = "^1.0.9"
+requests = "^2.25.1"
+beautifulsoup4 = "4.9.3"
+user_agent = "0.1.9"
+proxyscrape = "0.3.0"
+lxml = "4.6.2"
+httpx = "^0.19.0"
+
+
+[tool.poetry.dev-dependencies]
+pytest = "^5.2"
+black = "^21.9b0"
+isort = "^5.9.3"
+flake9 = "^3.8.3"
+pyproject-flake8 = "^0.0.1-alpha.2"
+
+[tool.flake8]
+max-line-length = 120
+max-complexity = 25
+extend-ignore = "E203,"
+
+[tool.black]
+line-length = 120
+
+[tool.poetry.scripts]
+proxy_machine = "proxy_machine.__main__:cli"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
