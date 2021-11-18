@@ -1,4 +1,5 @@
 import argparse
+import asyncio
 import logging
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from inspect import getmembers, isfunction
@@ -10,7 +11,7 @@ import proxy_machine.otherproxies as otherproxies
 from .proxyarchive import parse_proxyarchive
 from .proxyscrape_all import parse_proxyscrape
 from .tools.proxies_manipulation import filtrate_ports, prepare_proxy
-from .tools.proxy_checker import check_proxy, run_checking
+from .tools.proxy_checker import check_proxy, run_checking, run_checking_async
 
 # --- Disabling requests logger (set log level CRITICAL)
 import requests
@@ -46,32 +47,41 @@ def save_proxies(filename: str, proxies: Set[str]) -> None:
         logger.info(f"{len(proxies)} proxies were recorded in {filename}")
 
 
-def main(filename: str, workers=None, checker=False) -> None:
+def main(filename: str, workers=None, checker=False, async_enabled=True, infile: str = None) -> None:
     start = time()
     proxies = set()
     parsers = load_proxies_func()
 
-    with ThreadPoolExecutor(workers) as executor:
-        futures = []
-        for parser in parsers:
-            futures.append(executor.submit(parser))
-        for future in as_completed(futures):
-            try:
-                parser_proxies = future.result()
-                proxies.update(parser_proxies)
-            except Exception as e:
-                print(e)
+    if infile:
+        with open(infile) as f:
+            prepared_proxies = f.readlines()
+    else:
+        with ThreadPoolExecutor(workers) as executor:
+            futures = []
+            for parser in parsers:
+                futures.append(executor.submit(parser))
+            for future in as_completed(futures):
+                try:
+                    parser_proxies = future.result()
+                    proxies.update(parser_proxies)
+                except Exception as e:
+                    print(e)
 
-    # Clearing unnecessary lines. (These can be from proxyscrape_all)
-    prepared_proxies = {
-        f"{prepare_proxy(proxy)}\n"
-        for proxy in proxies
-        if filtrate_ports(proxy)
-    }
+        # Clearing unnecessary lines. (These can be from proxyscrape_all)
+        prepared_proxies = {
+            f"{prepare_proxy(proxy)}\n"
+            for proxy in proxies
+            if filtrate_ports(proxy)
+        }
 
     if checker:
         logger.info("----- Launch the proxies checker... -----")
-        checked_proxies = run_checking(prepared_proxies, workers)
+        if async_enabled:
+            loop = asyncio.get_event_loop()
+            checked_proxies = loop.run_until_complete(run_checking_async(prepared_proxies))
+            # checked_proxies = asyncio.run(run_checking_async(prepared_proxies))
+        else:
+            checked_proxies = run_checking(prepared_proxies, workers)
         prepared_proxies = {f"{proxy}\n" for proxy in checked_proxies}
 
     save_proxies(f"{filename}.txt", prepared_proxies)
@@ -104,6 +114,20 @@ def cli():
         type=str,
         help="Name of the file you want to save",
     )
+    argparser.add_argument(
+        "-a",
+        "--async-enabled",
+        default=True,
+        type=bool,
+        help="The proxy check will be async",
+    )
+    argparser.add_argument(
+        "-i",
+        "--infile",
+        default=None,
+        type=str,
+        help="Use the proxies.txt for pc checking"
+    )
 
     args = argparser.parse_args()
-    main(filename=args.file_name, workers=args.workers, checker=args.proxy_checker)
+    main(filename=args.file_name, workers=args.workers, checker=args.proxy_checker, async_enabled=args.async_enabled, infile=args.infile)
