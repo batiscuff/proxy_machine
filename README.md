@@ -11,8 +11,9 @@
     </a>
 </h2>
 
-## Description
-I did this project in order to boost views with the [tg_booster :airplane:](https://github.com/batiscuff/tg_booster) in my Telegram channel. You can use it not only for boosting views but also for your own purposes. The maximum number of proxies you can get is 35.000 </br>
+## Description 
+The maximum number of proxies you can get is 35.000 </br>
+
 **List of sites for parsing proxies:**
 - [free-proxy-list.net/anonymous-proxy.html](http://free-proxy-list.net/anonymous-proxy.html)
 - [free-proxy-list.net](http://free-proxy-list.net)
@@ -49,6 +50,11 @@ I did this project in order to boost views with the [tg_booster :airplane:](http
 - [proxynova.com](http://www.proxynova.com/proxy-server-list)
 - [xiladaili.com](http://www.xiladaili.com/https)
 
+## Install through pip
+
+```sh
+pip install proxy-machine
+```
 ## Install 
 ```sh
 sudo apt update && sudo apt upgrade
@@ -61,6 +67,10 @@ pip3 install -r requirements.txt
 ## Usage
 ```sh
 python3 -m proxy_machine
+```
+or
+```shell
+proxy_machine --help
 ```
 #### Usage with proxy checker
 ```sh
@@ -76,6 +86,16 @@ is that they rapidly expire.
 python3 -m proxy_machine -h
 ```
 
+## Future Development
+
+[x] - Add async checking of the proxy to improve timing. <br/>
+[x] - Improve cli options and args. <br/>
+[ ] - Upload to pypi. <br/>
+[ ] - Add proxy response time to the results by calculating execution in the checker <br />
+[ ] - Add proxy location to the results <br/>
+[ ] - Add filtering and sorting options to the results <br/>
+[ ] - Add early stop, if the required number of proxies are reached with given constrains <br/>
+[ ] - Add more websites to retrieve proxies
+
 ## License
-**Copyright © 2021 [batiscuff](https://github.com/batiscuff)** <br />
 **This project is GNU [General Public License v3.0](https://github.com/batiscuff/proxy_machine/blob/main/LICENSE) licensed**

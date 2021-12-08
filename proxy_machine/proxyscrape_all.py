@@ -1,8 +1,7 @@
 import logging
-from typing import Dict, Optional, Set, Union
+from typing import Dict, Set, Union
 
 import requests
-
 from proxyscrape import create_collector, get_collector, scrapers
 from proxyscrape.errors import CollectorAlreadyDefinedError
 from user_agent import generate_user_agent
@@ -65,9 +64,7 @@ class ProxyScraper:
                 data = r.text.encode()
                 data_utf = data.decode("utf-8")
                 self.proxy_set2 = set(data_utf.replace("\r", "").split("\n"))
-            logger.info(
-                f"From {short_url(r.url)} were parsed {len(self.proxy_set2)} proxies"
-            )
+            logger.info(f"From {short_url(r.url)} were parsed {len(self.proxy_set2)} proxies")
         except Exception:
             logger.exception(f"Proxies from {short_url(r.url)} were not loaded :(")
         return self.proxy_set2

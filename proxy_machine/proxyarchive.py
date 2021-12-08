@@ -4,9 +4,8 @@ from datetime import date
 from time import sleep
 from typing import List, Set
 
-import requests
-
 import brotli
+import requests
 from user_agent import generate_user_agent
 
 from .tools.proxies_manipulation import short_url
@@ -55,9 +54,7 @@ class CheckerProxyArchive:
             for proxy in proxies:
                 if proxy.get("type") in (1, 2) and 210 < proxy.get("timeout") < 6000:
                     self.proxies_set.add(proxy.get("addr"))
-            logger.info(
-                f"From {short_url(r.url)} were parsed {len(self.proxies_set)} proxies"
-            )
+            logger.info(f"From {short_url(r.url)} were parsed {len(self.proxies_set)} proxies")
         except Exception:
             logger.exception(
                 f"Proxies from {short_url(r.url)} were not loaded :(\
