@@ -30,7 +30,9 @@ class ProxyScraper:
             collector = create_collector("default", "https")
         except CollectorAlreadyDefinedError:
             collector = get_collector("default")
-        collector_proxies = set(collector.get_proxies())
+        collector_proxies = (
+            set(collector.get_proxies()) if collector.get_proxies() else set()
+        )
         proxies = free_proxies | ssl_proxies | collector_proxies
 
         for proxy in proxies:
