@@ -124,3 +124,7 @@ def cli():
         async_enabled=args.async_enabled,
         infile=args.infile,
     )
+
+
+if __name__ == "__main__":
+    cli()
